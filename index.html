@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>373 Alexander Street</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1C1C1C">
+<meta name="background-color" content="#1C1C1C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="373 Alexander">
+
+<!-- Icons -->
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-192.png">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #1C1C1C; }
+  iframe {
+    width: 100%; height: 100%; border: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  }
+  .offline-msg {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: #1C1C1C; color: #C9A961;
+    font-family: Georgia, serif; text-align: center;
+    padding: 3rem 2rem;
+    flex-direction: column; align-items: center; justify-content: center;
+  }
+  .offline-msg h1 { font-size: 2rem; margin-bottom: 0.5rem; letter-spacing: 0.08em; }
+  .offline-msg p { color: #B8AFA6; font-size: 0.95rem; margin-top: 0.8rem; }
+  .offline-msg .seal {
+    width: 80px; height: 80px; border: 1px solid rgba(201,169,97,0.2);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: Georgia, serif; font-size: 1.5rem; color: #C9A961;
+    margin-bottom: 1.5rem;
+  }
+</style>
+</head>
+<body>
+
+<iframe
+  id="dashboard"
+  src="https://script.google.com/macros/s/AKfycbwKQzz8_fFhvMaLt2juGTpyXbMz7aIojs9XP2pMrS05hQRvh8IBLOlLAlRUjLjaVn5S2A/exec"
+  allow="fullscreen"
+  loading="eager"
+></iframe>
+
+<div class="offline-msg" id="offlineMsg">
+  <div class="seal">373</div>
+  <h1>373 Alexander</h1>
+  <p>The ledger needs an internet connection to load.</p>
+  <p>Check your connection and try again.</p>
+</div>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(function() {});
+  }
+  function checkOnline() {
+    document.getElementById('offlineMsg').style.display = navigator.onLine ? 'none' : 'flex';
+    document.getElementById('dashboard').style.display = navigator.onLine ? 'block' : 'none';
+  }
+  window.addEventListener('online', checkOnline);
+  window.addEventListener('offline', checkOnline);
+  checkOnline();
+</script>
+</body>
+</html>
